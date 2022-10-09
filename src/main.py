@@ -43,13 +43,16 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+# TODO: remove
 print(args.config)
 print(args.gui)
 print(args.input)
 print(args.output)
+# END TODO
 
 if args.gui:
     # running GUI
+    # TODO: implement gui
     print("Not implemented yet")
     pass
 else:
