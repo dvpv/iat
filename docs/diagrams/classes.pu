@@ -1,0 +1,40 @@
+@startuml classes
+
+interface Algorithm
+{
+    +process(Image) -> Image
+}
+
+class Rotation
+{
+    -deg : float
+    +process(Image) -> Image
+}
+
+class Tint
+{
+    -color : Color
+    +process(Image) -> Image
+}
+
+class Crop
+{
+    {field}-dimension : Dimension
+    +process(Image) -> Image
+}
+
+class Image
+{
+    +name : str
+    +path : str
+    +img : np.array
+}
+
+Algorithm - Image
+Algorithm <|.. Rotation
+Algorithm <|.. Tint
+Algorithm <|.. Crop
+
+
+
+@enduml
