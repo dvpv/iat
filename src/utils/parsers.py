@@ -1,3 +1,4 @@
+from typing import List
 import yaml
 import os
 import re
@@ -18,7 +19,20 @@ def parse_operation_from_dict(dictionary: dict) -> Algorithm:
         save = dictionary["save"]
     if operation_type == "tint":
         if "color" not in dictionary:
-            raise "Invalid config file"
+            raise Exception("Invalid config file. Missing 'color' attribute for Tint.")
+        elif (
+            type(dictionary["color"]) is not list
+            or type(dictionary["color"][0]) is not int
+        ):
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'color' attribute (type must be List[int])."
+            )
+        elif len(dictionary["color"]) != 3:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'color' attribute (len must be 3)."
+            )
         return Tint(dictionary["color"], save_result=save)
 
     raise "Invalid config file. Unknown operation type."
