@@ -1,10 +1,10 @@
 import sys
 import cv2
 import numpy as np
-from algorithms.tint import Tint
-from models.config import Config
-from models.image import Image
-from process.process import *
+from src.algorithms.tint import Tint
+from src.models.config import Config
+from src.models.image import Image
+from src.process.process import *
 
 
 def run(input_path: str, output_dir: str, config: Config) -> None:

@@ -1,5 +1,5 @@
 from typing import List
-from algorithms.algorithm import Algorithm
+from src.algorithms.algorithm import Algorithm
 
 
 class Config:

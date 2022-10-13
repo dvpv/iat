@@ -2,9 +2,9 @@ import yaml
 import os
 import re
 
-from algorithms.algorithm import Algorithm
-from algorithms.tint import Tint
-from models.config import Config
+from src.algorithms.algorithm import Algorithm
+from src.algorithms.tint import Tint
+from src.models.config import Config
 
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
 

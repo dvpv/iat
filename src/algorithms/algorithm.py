@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from models.image import Image
+from src.models.image import Image
 
 
 class Algorithm(ABC):

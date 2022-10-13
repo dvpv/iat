@@ -1,6 +1,6 @@
 import argparse
-from utils.parsers import *
-import cli
+from src.utils.parsers import *
+import src.cli as cli
 
 DEFAULT_CONFIG_LOCATION = "./config.yaml"
 

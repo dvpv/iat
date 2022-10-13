@@ -1,8 +1,7 @@
 import cv2
-from algorithms.algorithm import Algorithm
-
-from models.image import Image
-from utils.parsers import append_to_image_name
+from src.algorithms.algorithm import Algorithm
+from src.models.image import Image
+from src.utils.parsers import append_to_image_name
 
 
 def export(image: Image, step: int, output_dir: str) -> None:

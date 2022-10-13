@@ -1,5 +1,5 @@
-from algorithms.algorithm import Algorithm
-from models.image import Image
+from src.algorithms.algorithm import Algorithm
+from src.models.image import Image
 
 
 class Zoom(Algorithm):
