@@ -4,6 +4,8 @@ from models.image import Image
 
 
 class Algorithm(ABC):
+    save_result: bool = False
+
     @abstractmethod
-    def process(image: Image) -> Image:
+    def process(self, image: Image) -> Image:
         pass

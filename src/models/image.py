@@ -9,3 +9,6 @@ class Image:
     ):
         self.image = image
         self.path = path
+
+    def get_name(self) -> str:
+        return self.path.split("/")[-1].split("\\")[-1]

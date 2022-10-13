@@ -1,8 +1,5 @@
 import argparse
-import sys
-import cv2
-import numpy as np
-from models.image import Image
+from utils.parsers import *
 import cli
 
 DEFAULT_CONFIG_LOCATION = "./config.yaml"
@@ -29,7 +26,6 @@ parser.add_argument(
     "input",
     nargs="?",
     type=str,
-    default=sys.stdin,
     help="path to the input file",
 )
 
@@ -37,8 +33,7 @@ parser.add_argument(
     "output",
     nargs="?",
     type=str,
-    default=sys.stdout,
-    help="path to the output file",
+    help="path to the output dir",
 )
 
 args = parser.parse_args()
@@ -57,4 +52,6 @@ if args.gui:
     pass
 else:
     # running CLI
-    cli.run_cli()
+    input_path = get_absolute_path(args.input)
+    output_dir = get_absolute_path(args.output)
+    cli.run(input_path, output_dir)
