@@ -12,7 +12,7 @@ DEFAULT_SAVE_EACH_STEP_CONFIG = False
 
 def parse_operation_from_dict(dictionary: dict) -> Algorithm:
     if "type" not in dictionary or type(dictionary["type"]) is not str:
-        raise "Invalid config file"
+        raise Exception("Invalid config file")
     operation_type = dictionary["type"]
     save = False
     if "save" in dictionary and type(dictionary["save"]) is bool:
@@ -35,7 +35,7 @@ def parse_operation_from_dict(dictionary: dict) -> Algorithm:
             )
         return Tint(dictionary["color"], save_result=save)
 
-    raise "Invalid config file. Unknown operation type."
+    raise Exception("Invalid config file. Unknown operation type.")
 
 
 def parse_config_file(path: str) -> Config:
@@ -46,7 +46,7 @@ def parse_config_file(path: str) -> Config:
         for operation in config_dict["operations"]:
             operations.append(parse_operation_from_dict(operation))
     else:
-        raise "Invalid config file"
+        raise Exception("Invalid config file")
 
     save_each_step = DEFAULT_SAVE_EACH_STEP_CONFIG
     if save_each_step in config_dict:
