@@ -52,6 +52,7 @@ if args.gui:
     pass
 else:
     # running CLI
+    config = parse_config_file(args.config)
     input_path = get_absolute_path(args.input)
     output_dir = get_absolute_path(args.output)
-    cli.run(input_path, output_dir)
+    cli.run(input_path, output_dir, config)

@@ -14,9 +14,10 @@ def process(
     image: Image,
     algorithms: list[Algorithm],
     output_dir: str,
+    save_each_step: bool = False,
 ) -> None:
     i = 0
     for i, algorithm in enumerate(algorithms):
         image = algorithm.process(image)
-        if algorithm.save_result:
+        if algorithm.save_result or save_each_step:
             export(image, i + 1, output_dir)
