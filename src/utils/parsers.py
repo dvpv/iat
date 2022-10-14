@@ -49,7 +49,7 @@ def parse_config_file(path: str) -> Config:
         raise Exception("Invalid config file")
 
     save_each_step = DEFAULT_SAVE_EACH_STEP_CONFIG
-    if save_each_step in config_dict:
+    if "save_each_step" in config_dict:
         save_each_step = config_dict["save_each_step"]
     operations[-1].save_result = True
     config = Config(
@@ -64,7 +64,11 @@ def get_absolute_path(path: str) -> str:
     return os.path.abspath(os.path.expanduser(path))
 
 
+def get_file_type(file_name: str) -> str:
+    return re.split("\\.", file_name)[-1]
+
+
 def append_to_image_name(name: str, string: str) -> str:
-    file_type = re.split("\\.", name)[-1]
+    file_type = get_file_type(name)
     file_name = name[0 : len(name) - len(file_type) - 1]
     return f"{file_name}{string}.{file_type}"

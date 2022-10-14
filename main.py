@@ -1,6 +1,9 @@
 import argparse
+
+from yaml import parse
 from src.utils.parsers import *
 import src.cli as cli
+from src.gui.app import App
 
 DEFAULT_CONFIG_LOCATION = "./config.yaml"
 
@@ -46,10 +49,12 @@ print(args.output)
 # END TODO
 
 if args.gui:
-    # running GUI
-    # TODO: implement gui
-    print("Not implemented yet")
-    pass
+    config = parse_config_file(args.config)
+    output_dir = None
+    if args.output != None:
+        output_dir = get_absolute_path(args.output)
+    app = App(config, output_dir)
+    app.run()
 else:
     # running CLI
     config = parse_config_file(args.config)
