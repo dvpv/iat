@@ -1,7 +1,7 @@
 from typing import List
 import cv2
 from src.models.config import Config
-from src.algorithms.algorithm import Algorithm
+from src.operations.operation import Operation
 from src.models.image import Image
 from src.utils.parsers import append_to_image_name
 

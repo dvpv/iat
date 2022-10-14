@@ -3,14 +3,14 @@ import yaml
 import os
 import re
 
-from src.algorithms.algorithm import Algorithm
-from src.algorithms.tint import Tint
+from src.operations.operation import Operation
+from src.operations.tint import Tint
 from src.models.config import Config
 
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
 
 
-def parse_operation_from_dict(dictionary: dict) -> Algorithm:
+def parse_operation_from_dict(dictionary: dict) -> Operation:
     if "type" not in dictionary or type(dictionary["type"]) is not str:
         raise Exception("Invalid config file")
     operation_type = dictionary["type"]

@@ -1,8 +1,8 @@
 from typing import List
-from src.algorithms.algorithm import Algorithm
+from src.operations.operation import Operation
 
 
 class Config:
-    def __init__(self, operations: List[Algorithm], save_each_step):
+    def __init__(self, operations: List[Operation], save_each_step):
         self.operations = operations
         self.save_each_step = save_each_step
