@@ -5,6 +5,8 @@ import re
 
 from src.operations.operation import Operation
 from src.operations.tint import Tint
+from src.operations.zoom import Zoom
+from src.operations.crop import Crop
 from src.models.config import Config
 
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
@@ -17,7 +19,7 @@ def parse_operation_from_dict(dictionary: dict) -> Operation:
     save = False
     if "save" in dictionary and type(dictionary["save"]) is bool:
         save = dictionary["save"]
-    if operation_type == "tint":
+    if operation_type.lower() == "tint":
         if "color" not in dictionary:
             raise Exception("Invalid config file. Missing 'color' attribute for Tint.")
         elif (
@@ -34,6 +36,38 @@ def parse_operation_from_dict(dictionary: dict) -> Operation:
                 "Invalid type of 'color' attribute (len must be 3)."
             )
         return Tint(dictionary["color"], save_result=save)
+    elif operation_type.lower() == "zoom":
+        if "fx" not in dictionary:
+            raise Exception("Invalid config file. Missing 'fx' attribute for Zoom.")
+        elif type(dictionary["fx"]) not in [float, int]:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'fx' attribute (type must be float or int)."
+            )
+        if "fy" not in dictionary:
+            raise Exception("Invalid config file. Missing 'fy' attribute for Zoom.")
+        elif type(dictionary["fy"]) not in [float, int]:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'fy' attribute (type must be float or int)."
+            )
+        return Zoom(dictionary["fx"], dictionary["fy"], save_result=save)
+    elif operation_type.lower() == "crop":
+        if "x" not in dictionary:
+            raise Exception("Invalid config file. Missing 'x' attribute for Crop.")
+        elif type(dictionary["x"]) is not int:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'x' attribute (type must be int)."
+            )
+        if "y" not in dictionary:
+            raise Exception("Invalid config file. Missing 'y' attribute for Crop.")
+        elif type(dictionary["y"]) is not int:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'y' attribute (type must be int)."
+            )
+        return Crop([dictionary["x"], dictionary["y"]], save_result=save)
 
     raise Exception("Invalid config file. Unknown operation type.")
 
