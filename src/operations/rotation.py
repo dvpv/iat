@@ -1,4 +1,4 @@
-from webbrowser import Opera
+import cv2
 from src.operations.operation import Operation
 from src.models.image import Image
 
@@ -9,5 +9,5 @@ class Rotation(Operation):
         self.save_result = save_result
 
     def process(self, image: Image) -> Image:
-        # TODO: implement rotation
+        image.image = cv2.rotate(image.image, self.__degrees)
         return image

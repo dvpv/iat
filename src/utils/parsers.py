@@ -7,6 +7,7 @@ from src.operations.operation import Operation
 from src.operations.tint import Tint
 from src.operations.zoom import Zoom
 from src.operations.crop import Crop
+from src.operations.rotation import Rotation
 from src.models.config import Config
 
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
@@ -68,6 +69,17 @@ def parse_operation_from_dict(dictionary: dict) -> Operation:
                 "Invalid type of 'y' attribute (type must be int)."
             )
         return Crop([dictionary["x"], dictionary["y"]], save_result=save)
+    elif operation_type.lower() == "rotation":
+        if "degrees" not in dictionary:
+            raise Exception(
+                "Invalid config file. Missing 'degrees' attribute for Rotation."
+            )
+        elif type(dictionary["degrees"]) not in [int, float]:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'degrees' attribute (type must be float or int)."
+            )
+        return Rotation(int(dictionary["degrees"]), save_result=save)
 
     raise Exception("Invalid config file. Unknown operation type.")
 
