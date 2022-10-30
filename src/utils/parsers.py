@@ -2,8 +2,8 @@ from typing import List
 import yaml
 import os
 import re
-
 from src.operations.operation import Operation
+from src.operations.gaussian_blur import GaussianBlur
 from src.operations.tint import Tint
 from src.operations.zoom import Zoom
 from src.operations.crop import Crop
@@ -80,6 +80,17 @@ def parse_operation_from_dict(dictionary: dict) -> Operation:
                 "Invalid type of 'degrees' attribute (type must be float or int)."
             )
         return Rotation(int(dictionary["degrees"]), save_result=save)
+    elif operation_type.lower() == "gaussianBlur":
+        if "sigma" not in dictionary:
+            raise Exception(
+                "Invalid config file. Missing 'sigma' attribute for Rotation."
+            )
+        elif type(dictionary["sigma"]) is not int:
+            raise Exception(
+                "Invalid config file. "
+                "Invalid type of 'degrees' attribute (type must be int)."
+            )
+        return GaussianBlur(dictionary["sigma"], save_result=save)
 
     raise Exception("Invalid config file. Unknown operation type.")
 
