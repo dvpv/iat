@@ -1,10 +1,22 @@
 from typing import List
+from webbrowser import Opera
+
+from numpy import extract
 from src.operations.operation import Operation
 from src.models.image import Image
+from src.utils.extractors import extract_key, extract_save
 
 
 class Crop(Operation):
-    def __init__(self, dsize: List[float], save_result: bool = False):
+    TYPE = "crop"
+
+    def from_dict(d: dict) -> Operation:
+        return Crop(
+            dsize=[extract_key("x", d, [int]), extract_key("y", d, [int])],
+            save_result=extract_save(d),
+        )
+
+    def __init__(self, dsize: List[int], save_result: bool = False):
         self.__dsize = dsize
         self.save_result = save_result
 
