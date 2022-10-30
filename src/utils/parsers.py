@@ -1,6 +1,7 @@
 import yaml
 import os
 import re
+from src.operations.resize import Resize
 from src.operations.blur import Blur
 from src.operations.operation import Operation
 from src.operations.gaussian_blur import GaussianBlur
@@ -30,6 +31,8 @@ def parse_operation(d: dict) -> Operation:
             return Zoom.from_dict(d)
         case Blur.TYPE:
             return Blur.from_dict(d)
+        case Resize.TYPE:
+            return Resize.from_dict(d)
         case _:
             raise Exception(f"Unknown type {operation_type}")
 
