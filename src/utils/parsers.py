@@ -1,7 +1,7 @@
-from email.policy import default
 import yaml
 import os
 import re
+from src.operations.blur import Blur
 from src.operations.operation import Operation
 from src.operations.gaussian_blur import GaussianBlur
 from src.operations.tint import Tint
@@ -28,6 +28,8 @@ def parse_operation(d: dict) -> Operation:
             return Tint.from_dict(d)
         case Zoom.TYPE:
             return Zoom.from_dict(d)
+        case Blur.TYPE:
+            return Blur.from_dict(d)
         case _:
             raise Exception(f"Unknown type {operation_type}")
 
