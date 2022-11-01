@@ -11,7 +11,9 @@ chain_index = 1
 
 
 class Chain:
-    def from_dict(d: dict):
+    export_images = True
+
+    def from_dict(d: dict, macros: List[Operation] = []):
         global chain_index
         name = extract_key(
             "name",
@@ -30,9 +32,9 @@ class Chain:
             default_value=False,
         )
         encoded_operations = extract_key("operations", d, [list])
-        operations: List[Operation] = []
-        for encoded in encoded_operations:
-            operations.append(parse_operation(encoded))
+        operations = [
+            parse_operation(encoded, macros) for encoded in encoded_operations
+        ]
         operations[-1].save_result = True  # Save the result for the last operation
         return Chain(
             name=name,
@@ -45,11 +47,12 @@ class Chain:
         self.__operations = operations
         self.__save_each_step = save_each_step
 
-    def process(self, image: Image, output_dir: str) -> None:
+    def process(self, image: Image, output_dir: str) -> Image:
         for i, operation in enumerate(self.__operations):
             image = operation.process(image)
-            if operation.save_result or self.__save_each_step:
+            if (operation.save_result or self.__save_each_step) and self.export_images:
                 self.__export_image(image, i + 1, output_dir, operation.TYPE)
+        return image
 
     def __export_image(
         self,

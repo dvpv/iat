@@ -1,3 +1,4 @@
+from typing import List
 import yaml
 import os
 import re
@@ -14,10 +15,12 @@ from src.operations.rotation import Rotation
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
 
 
-def parse_operation(d: dict) -> Operation:
+def parse_operation(d: dict, macros: List[Operation]) -> Operation:
     if "type" not in d or type(d["type"]) is not str:
         raise Exception("Invalid config file")
     operation_type: str = d["type"]
+    if operation_type in [macro.TYPE for macro in macros]:
+        return next(m for m in macros if m.TYPE == operation_type)
     match operation_type:
         case Crop.TYPE:
             return Crop.from_dict(d)

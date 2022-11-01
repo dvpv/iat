@@ -45,17 +45,15 @@ args = parser.parse_args()
 
 
 config_dict = read_config_yaml(args.config)
-config = Config.from_dict(config_dict)
-
+output_dir = None
+if args.output != None:
+    output_dir = get_absolute_path(args.output)
+config = Config.from_dict(config_dict, output_dir)
 if args.gui:
     # running GUI
-    output_dir = None
-    if args.output != None:
-        output_dir = get_absolute_path(args.output)
     app = App(config, output_dir)
     app.run()
 else:
     # running CLI
     input_path = get_absolute_path(args.input)
-    output_dir = get_absolute_path(args.output)
     cli.run(input_path, output_dir, config)
