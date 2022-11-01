@@ -1,3 +1,4 @@
+import json
 from typing import List
 import yaml
 import os
@@ -44,6 +45,10 @@ def parse_operation(d: dict, macros: List[Operation]) -> Operation:
 
 def read_config_yaml(path: str) -> dict:
     return yaml.safe_load(open(path, "r"))
+
+
+def read_config_json(path: str) -> dict:
+    return json.load(open(path, "r"))
 
 
 def get_absolute_path(path: str) -> str:

@@ -26,5 +26,4 @@ class Macro(Operation):
         self.save_result = save_result
 
     def process(self, image: Image) -> Image:
-        print(self.__output_dir)
         return self.__chain.process(image, self.__output_dir)

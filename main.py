@@ -13,10 +13,18 @@ parser = argparse.ArgumentParser(description="Image Augmentation Tool")
 
 parser.add_argument(
     "-c",
-    "--config",
+    "--yaml",
     type=str,
     default=DEFAULT_CONFIG_LOCATION,
-    help="path to the configuration file",
+    help="path to the YAML configuration file",
+)
+
+parser.add_argument(
+    "-C",
+    "--json",
+    type=str,
+    default=None,
+    help="path to the JSON configuration file",
 )
 
 parser.add_argument(
@@ -44,7 +52,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-config_dict = read_config_yaml(args.config)
+config_dict = (
+    read_config_json(args.json) if args.json != None else read_config_yaml(args.yaml)
+)
 output_dir = None
 if args.output != None:
     output_dir = get_absolute_path(args.output)
