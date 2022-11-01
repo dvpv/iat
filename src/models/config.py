@@ -20,10 +20,10 @@ class Config:
         if output_dir == None:
             raise Exception("undefined output directory")
         encoded_macros = extract_key("macros", d, [dict])
-        macros = [
-            Macro.from_dict(encoded_macros[key], key, output_dir)
-            for key in encoded_macros
-        ]
+        macros: List[Macro] = []
+        for key in encoded_macros:
+            print(key)
+            macros.append(Macro.from_dict(encoded_macros[key], key, output_dir, macros))
         encoded_chains = extract_key("chains", d, [list])
         chains = [Chain.from_dict(encoded, macros) for encoded in encoded_chains]
         return Config(chains=chains, macros=macros, output_dir=output_dir)

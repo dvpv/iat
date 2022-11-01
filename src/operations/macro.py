@@ -4,8 +4,8 @@ from src.models.image import Image
 
 
 class Macro(Operation):
-    def from_dict(d: dict, name: str, output_dir: str) -> Operation:
-        chain = Chain.from_dict(d)
+    def from_dict(d: dict, name: str, output_dir: str, macros) -> Operation:
+        chain = Chain.from_dict(d, macros)
         chain.export_images = False
         return Macro(
             name=name,

@@ -1,26 +1,15 @@
 import json
-from token import OP
 from typing import List
 import yaml
 import os
 import re
-from src.operations.gamma_correction import GammaCorrection
-from src.operations.resize import Resize
-from src.operations.blur import Blur
-from src.operations.operation import Operation
-from src.operations.gaussian_blur import GaussianBlur
-from src.operations.tint import Tint
-from src.operations.zoom import Zoom
-from src.operations.crop import Crop
-from src.operations.rotation import Rotation
+from src.operations import *
 
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
 
 
 def parse_operation(d: dict, macros: List[Operation]) -> Operation:
-    if "type" not in d or type(d["type"]) is not str:
-        raise Exception("Invalid config file")
-    operation_type: str = d["type"]
+    operation_type = extract_key("type", d, [str])
     if operation_type in [macro.TYPE for macro in macros]:
         return next(m for m in macros if m.TYPE == operation_type)
     operations = Operation.__subclasses__()

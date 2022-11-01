@@ -1,7 +1,4 @@
 import argparse
-from base64 import encode
-
-from yaml import parse
 from src.utils.parsers import *
 import src.cli as cli
 from src.gui.app import App
