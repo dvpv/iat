@@ -35,6 +35,8 @@ class Resize(Operation):
 
     def process(self, image: Image) -> Image:
         image.image = cv2.resize(
-            image.image, (self.__height, self.__width), interpolation=self.__inter
+            image.image,
+            (self.__height, self.__width),
+            interpolation=self.__inter,
         )
         return image

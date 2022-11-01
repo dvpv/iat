@@ -1,6 +1,7 @@
 import yaml
 import os
 import re
+from src.operations.gamma_correction import GammaCorrection
 from src.operations.resize import Resize
 from src.operations.blur import Blur
 from src.operations.operation import Operation
@@ -9,7 +10,6 @@ from src.operations.tint import Tint
 from src.operations.zoom import Zoom
 from src.operations.crop import Crop
 from src.operations.rotation import Rotation
-from src.models.config import Config
 
 DEFAULT_SAVE_EACH_STEP_CONFIG = False
 
@@ -33,30 +33,14 @@ def parse_operation(d: dict) -> Operation:
             return Blur.from_dict(d)
         case Resize.TYPE:
             return Resize.from_dict(d)
+        case GammaCorrection.TYPE:
+            return GammaCorrection.from_dict(d)
         case _:
             raise Exception(f"Unknown type {operation_type}")
 
 
-def parse_config_file(path: str) -> Config:
-    stream = open(path, "r")
-    config_dict = yaml.safe_load(stream)
-    operations = []
-    if "operations" in config_dict and type(config_dict["operations"]) is list:
-        for operation in config_dict["operations"]:
-            operations.append(parse_operation(operation))
-    else:
-        raise Exception("Invalid config file")
-
-    save_each_step = DEFAULT_SAVE_EACH_STEP_CONFIG
-    if "save_each_step" in config_dict:
-        save_each_step = config_dict["save_each_step"]
-    operations[-1].save_result = True
-    config = Config(
-        operations=operations,
-        save_each_step=save_each_step,
-    )
-
-    return config
+def read_config_yaml(path: str) -> dict:
+    return yaml.safe_load(open(path, "r"))
 
 
 def get_absolute_path(path: str) -> str:

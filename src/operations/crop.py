@@ -1,7 +1,6 @@
 from typing import List
 from webbrowser import Opera
 
-from numpy import extract
 from src.operations.operation import Operation
 from src.models.image import Image
 from src.utils.extractors import extract_key, extract_save

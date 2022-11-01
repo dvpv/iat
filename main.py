@@ -1,9 +1,11 @@
 import argparse
+from base64 import encode
 
 from yaml import parse
 from src.utils.parsers import *
 import src.cli as cli
 from src.gui.app import App
+from src.models.config import Config
 
 DEFAULT_CONFIG_LOCATION = "./config.yaml"
 
@@ -42,8 +44,11 @@ parser.add_argument(
 args = parser.parse_args()
 
 
+config_dict = read_config_yaml(args.config)
+config = Config.from_dict(config_dict)
+
 if args.gui:
-    config = parse_config_file(args.config)
+    # running GUI
     output_dir = None
     if args.output != None:
         output_dir = get_absolute_path(args.output)
@@ -51,7 +56,6 @@ if args.gui:
     app.run()
 else:
     # running CLI
-    config = parse_config_file(args.config)
     input_path = get_absolute_path(args.input)
     output_dir = get_absolute_path(args.output)
     cli.run(input_path, output_dir, config)

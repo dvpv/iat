@@ -1,10 +1,13 @@
-from typing import List
-
-
-def extract_key(key: str, d: dict, types: list, optional: bool = False):
+def extract_key(
+    key: str,
+    d: dict,
+    types: list,
+    optional: bool = False,
+    default_value=None,
+):
     if key not in d:
         if optional:
-            return None
+            return default_value
         raise Exception(f"{key} missing from {d}")
     val = d[key]
     if type(val) not in types:

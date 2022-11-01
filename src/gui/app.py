@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from typing import Optional
-from src.process.process import process_images
+from src.models.config import Config
 from src.utils.loaders import *
 
 DEFAULT_OUTPUT_PATH_SUFFIX = "_aug"
@@ -15,7 +15,7 @@ class App:
 
     def __trigger_process(self, dir_path: str) -> None:
         images = load_images_from_dir(dir_path)
-        process_images(images, self.config, self.output_dir)
+        self.config.process_images(images, self.output_dir)
 
     def __select_dir(self) -> None:
         path = filedialog.askdirectory(initialdir=".")
