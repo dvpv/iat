@@ -1,4 +1,5 @@
 import json
+from token import OP
 from typing import List
 import yaml
 import os
@@ -22,25 +23,14 @@ def parse_operation(d: dict, macros: List[Operation]) -> Operation:
     operation_type: str = d["type"]
     if operation_type in [macro.TYPE for macro in macros]:
         return next(m for m in macros if m.TYPE == operation_type)
-    match operation_type:
-        case Crop.TYPE:
-            return Crop.from_dict(d)
-        case GaussianBlur.TYPE:
-            return GaussianBlur.from_dict(d)
-        case Rotation.TYPE:
-            return Rotation.from_dict(d)
-        case Tint.TYPE:
-            return Tint.from_dict(d)
-        case Zoom.TYPE:
-            return Zoom.from_dict(d)
-        case Blur.TYPE:
-            return Blur.from_dict(d)
-        case Resize.TYPE:
-            return Resize.from_dict(d)
-        case GammaCorrection.TYPE:
-            return GammaCorrection.from_dict(d)
-        case _:
-            raise Exception(f"Unknown type {operation_type}")
+    operations = Operation.__subclasses__()
+    operations = [
+        operation for operation in operations if operation.__name__ != "Macro"
+    ]
+    for operation in operations:
+        if operation_type == operation.TYPE:
+            return operation.from_dict(d)
+    raise Exception(f"Unknown type {operation_type}")
 
 
 def read_config_yaml(path: str) -> dict:
