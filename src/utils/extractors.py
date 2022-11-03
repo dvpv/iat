@@ -6,7 +6,7 @@ def extract_key(
     default_value=None,
 ):
     if key not in d:
-        if optional:
+        if optional or default_value != None:
             return default_value
         raise Exception(f"{key} missing from {d}")
     val = d[key]
