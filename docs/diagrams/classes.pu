@@ -1,40 +1,48 @@
 @startuml classes
 
-interface Algorithm
-{
-    +process(Image) -> Image
-}
-
-class Rotation
-{
-    -degree : float
-    +process(Image) -> Image
-}
-
-class Tint
-{
-    -color : Color
-    +process(Image) -> Image
-}
-
-class Crop
-{
-    {field}-dimension : Dimension
-    +process(Image) -> Image
-}
+class App
 
 class Image
 {
-    +name : str
     +path : str
     +image : np.array
 }
 
-Algorithm - Image
-Algorithm <|.. Rotation
-Algorithm <|.. Tint
-Algorithm <|.. Crop
+class Config
+class Chain
 
+interface Operation
+{
+    + TYPE : str
+    +process(Image) -> Image
+}
+
+class Rotation
+class Tint
+class Crop
+class Blur
+class GaussianBlur
+class GammaCorrection
+class Resize
+class Macro
+
+App --> Image : 1..n
+App -> Config
+
+Config --> Chain : 1..n
+Config --> Macro : 1..n
+
+Chain --> Operation : 1..n
+Macro --> Operation : 1..n
+
+Operation <|.. Rotation
+Operation <|.. Tint
+Operation <|.. Crop
+Operation <|.. Blur
+Operation <|.. GaussianBlur
+Operation <|.. GammaCorrection
+Operation <|.. Resize
+Macro ..|> Operation
 
 
 @enduml

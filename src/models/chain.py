@@ -11,8 +11,6 @@ chain_index = 1
 
 
 class Chain:
-    export_images = True
-
     def from_dict(d: dict, macros: List[Operation] = []):
         global chain_index
         name = extract_key(
@@ -47,10 +45,10 @@ class Chain:
         self.__operations = operations
         self.__save_each_step = save_each_step
 
-    def process(self, image: Image, output_dir: str) -> Image:
+    def process(self, image: Image, output_dir: str = None) -> Image:
         for i, operation in enumerate(self.__operations):
             image = operation.process(image)
-            if (operation.save_result or self.__save_each_step) and self.export_images:
+            if (operation.save_result or self.__save_each_step) and output_dir != None:
                 self.__export_image(image, i + 1, output_dir, operation.TYPE)
         return image
 

@@ -9,29 +9,18 @@ OUTPUT_DIR_CONFIG_KEY: str = "outputDir"
 
 
 class Config:
-    def from_dict(d: dict, output_dir: str = None):
-        output_dir = extract_key(
-            OUTPUT_DIR_CONFIG_KEY,
-            d,
-            [str],
-            optional=True,
-            default_value=output_dir,
-        )
-        if output_dir == None:
-            raise Exception("undefined output directory")
+    def from_dict(d: dict):
         encoded_macros = extract_key("macros", d, [dict])
         macros: List[Macro] = []
         for key in encoded_macros:
-            print(key)
-            macros.append(Macro.from_dict(encoded_macros[key], key, output_dir, macros))
+            macros.append(Macro.from_dict(encoded_macros[key], key, macros))
         encoded_chains = extract_key("chains", d, [list])
         chains = [Chain.from_dict(encoded, macros) for encoded in encoded_chains]
-        return Config(chains=chains, macros=macros, output_dir=output_dir)
+        return Config(chains=chains, macros=macros)
 
-    def __init__(self, chains: List[Chain], macros: List[Chain], output_dir: str):
+    def __init__(self, chains: List[Chain], macros: List[Chain]):
         self.__chains = chains
         self.__macros = macros
-        self.__output_dir = output_dir
 
     def process_image(self, image: Image, output_dir: str) -> None:
         for chain in self.__chains:
@@ -42,7 +31,7 @@ class Config:
                 output_dir,
             )
 
-    def process_images(self, images: List[Image]) -> None:
+    def process_images(self, images: List[Image], output_dir: str) -> None:
         for image in images:
             print(f"processing {image.path}")
-            self.process_image(image, self.__output_dir)
+            self.process_image(image, output_dir)

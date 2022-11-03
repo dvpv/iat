@@ -55,7 +55,7 @@ config_dict = (
 output_dir = None
 if args.output != None:
     output_dir = get_absolute_path(args.output)
-config = Config.from_dict(config_dict, output_dir)
+config = Config.from_dict(config_dict)
 if args.gui:
     # running GUI
     app = App(config, output_dir)
