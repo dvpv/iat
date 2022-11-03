@@ -1,6 +1,9 @@
 @startuml classes
 
 class App
+{
+    +run()
+}
 
 class Image
 {
@@ -9,22 +12,50 @@ class Image
 }
 
 class Config
+{
+    +form_dict(d: dict) -> Config
+    +process_image(image: Image, output_dir: str) -> void
+    +process_images(images: List[Image], output_dir: str) -> void
+}
+
 class Chain
+{
+    +operations: List[Operation]
+    +form_dict(d: dict) -> Chain
+    +process(image: Image, output_dir: str) -> void
+}
 
 interface Operation
 {
     + TYPE : str
+    + save_result : bool
+    +form_dict(d: dict) -> Operation
     +process(Image) -> Image
 }
 
-class Rotation
-class Tint
-class Crop
-class Blur
-class GaussianBlur
-class GammaCorrection
-class Resize
+package "Pixel Operations" <<Rectangle>>
+{
+    class GammaCorrection
+    class Blur
+    class GaussianBlur
+    class Tint
+}
+
+package "Geometrical Operations" <<Rectangle>>
+{
+    class Rotation
+    class Crop
+    class Resize
+}
+
 class Macro
+{
+    + TYPE : str
+    + save_result : bool
+    + chain : Chain
+    +form_dict(d: dict) -> Macro
+    +process(Image) -> Image
+}
 
 App --> Image : 1..n
 App -> Config
@@ -33,7 +64,7 @@ Config --> Chain : 1..n
 Config --> Macro : 1..n
 
 Chain --> Operation : 1..n
-Macro --> Operation : 1..n
+Macro -> Chain
 
 Operation <|.. Rotation
 Operation <|.. Tint

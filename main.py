@@ -62,5 +62,7 @@ if args.gui:
     app.run()
 else:
     # running CLI
+    if output_dir == None:
+        raise Exception("No output directory")
     input_path = get_absolute_path(args.input)
     cli.run(input_path, output_dir, config)
