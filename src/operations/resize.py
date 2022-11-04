@@ -1,4 +1,3 @@
-from turtle import width
 import cv2
 from src.operations.operation import Operation
 from src.models.image import Image
